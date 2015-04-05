@@ -143,7 +143,10 @@ function bindEvent(){
 	});
 }
 
-
+/**
+ * [getData description]
+ * @return {[type]}
+ */
 function getData(){
 	$.ajax({
             url: 'http://www.51offer.com/school/uk-all-1.html',
