@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		51 School
+	</title>
+	<link rel="stylesheet" type="text/css" href="popup.css" />
+</head>
+<body>
+	<div class="schoolTable" style="width:790px; " id="div_conditions">
+		<div id="ssearch">
+			<p>学校名称：</p>
+			<div class="searchWrap">
+				<div class="inputWrap clearfix" style="border-color: rgb(226, 232, 238);">
+					<input class="searchText" placeholder="输入学校的中文名" name="cname" type="text" id="cname" value="" autocomplete="off">
+                </div>
+            </div>
+        </div>
+        <div id="scountry">
+           <p>选择国家：</p>
+           <a id="uk" href="javaScript:void(0);" class="active">英国</a>
+           <a id="au" href="javaScript:void(0);">澳大利亚</a>
+           <a id="nz" href="javaScript:void(0);">新西兰</a>
+           <a id="jp" href="javaScript:void(0);">日本</a>
+       </div>
+
+       <div name="sarea" data-id="uk" style="display:none;">
+           <p>所在地区：</p>
+           <a href="javaScript:void(0);" data-area="all" class="active">全部</a>
+           <a href="javaScript:void(0);" data-area="nl">北爱尔兰</a>
+           <a href="javaScript:void(0);" data-area="wl">威尔士</a>
+           <a href="javaScript:void(0);" data-area="sl">苏格兰</a>
+           <a href="javaScript:void(0);" data-area="el">英格兰</a>
+       </div>
+
+       <div name="sarea" data-id="au" style="display:none;">
+            <p>所在地区：</p>
+            <a href="javaScript:void(0);" data-area="all" class="active">全部</a>
+
+            <a href="javaScript:void(0);" data-area="nt">北领地</a>
+            <a href="javaScript:void(0);" data-area="sa">南澳州</a>
+            <a href="javaScript:void(0);" data-area="tm">塔斯马尼亚州</a>
+            <a href="javaScript:void(0);" data-area="nsw">新南威尔士州</a>
+            <a href="javaScript:void(0);" data-area="ql">昆士兰州</a>
+            <a href="javaScript:void(0);" data-area="vic">维多利亚州</a>
+            <a href="javaScript:void(0);" data-area="au">首都</a>
+        </div>
+
+        <div id="sglobalrank">
+           <p>综合排名：</p>
+           <a href="javaScript:void(0);" data-globalRank="all" class="active">全部</a>
+           <a href="javaScript:void(0);" data-globalRank="1" >1~10名</a>
+           <a href="javaScript:void(0);" data-globalRank="2" >10~20名</a>
+           <a href="javaScript:void(0);" data-globalRank="3" >20~50名 </a>
+           <a href="javaScript:void(0);" data-globalRank="4" >50~100名</a>
+           <a href="javaScript:void(0);" data-globalRank="5" >其他</a>
+           <div class="worldRanking">
+              <div style="float:left"><input id="rank_global1" name="rank_global1" value=""><div style="float:left;">&nbsp;~&nbsp;</div><input id="rank_global2" name="rank_global2" value=""> &nbsp;名 </div>
+              <div class="btnSure" id="div_search" style="width:50px;background-color:#F91F68;">搜索</div>
+          </div>
+        </div>
+        <div class="searchContent clearfix">
+            <p class="searchChil">按专业排名排序：</p>
+            <div class="searchChil" style="cursor:pointer;">
+              <div class="tab_sel" style="border-color: rgb(226, 232, 238);"><span id="major1">
+                 选择专业大类</span>
+                 <div class="poiPic tab_icon" style="background-position: 0px 0px;"></div></div>
+                 <div class="sel_content" id="sel_content" style="display: none;">
+                 </div>
+             </div>
+             <div class="searchChil" style="cursor:pointer;">
+              <div class="tab_sel"><span id="major2">
+                选择专业排名</span>
+                <div class="poiPic tab_icon"></div></div>
+                <div class="sel_content" id="sel_content1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height:45px;padding:0px 0px 0px 0px; width:790px;">
+        <div id="div_slide" class="slideUp" style="margin-left:300px;"></div>
+    </div>
+    <div class="schoolList" style="height:280px;">
+      <ul id="ul_school">请输入相关条件查询数据...</ul>
+    </div>
+    <div class="pagingWrap">
+      <div id="paging">
+         <p id="next"><a class="now" href="/school/uk-all-1.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">1</a> <a href="/school/uk-all-2.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">2</a> <a href="/school/uk-all-3.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">3</a> <a href="/school/uk-all-4.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">4</a> <a href="/school/uk-all-5.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">5</a> <a href="/school/uk-all-6.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">6</a> <a href="/school/uk-all-7.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">7</a> <a href="/school/uk-all-8.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">8</a><a class="next" href="/school/uk-all-2.html?rankmajorsName=工科&amp;rankmajorName=航空和制造工程学">下一页</a></p><span>跳转至<input type="text" name="pageNo" id="pageNo">页<button type="submit">确定</button></span></div>
+    </div>
+</body>
+<script src="jquery-2.0.0.min.js"></script>
+
+</html>

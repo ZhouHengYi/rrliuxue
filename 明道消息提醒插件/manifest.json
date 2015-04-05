@@ -1,0 +1,31 @@
+{
+  // 这个字段将用在安装对话框，扩展管理界面，和store里面，弹出通知的标题
+  "name": "尚普内部明道消息提醒-Henry.Zhou",
+  // 扩展的版本用一个到4个数字来表示，中间用点隔开,必须在0到65535之间，非零数字不能0开头
+  "version": "1.0",
+  // 描述扩种的一段字符串（不能是html或者其他格式，不能超过132个字符）。这个描述必须对浏览器扩展的管理界面和Chrome Web Store都合适。
+  "description": "尚普内部明道消息提醒-Henry.Zhou",
+  // 一个或者多个图标来表示扩展，app，和皮肤
+  "icons": {
+  	"16": "favicon.ico",  //  应用的fa网页图标
+  	"48": "favicon.ico",  // 应用管理页面需要这个图标
+  	"128": "favicon.ico"  // 在webstore安装的时候使用
+  },
+  // 扩展或app将使用的一组权限
+  "permissions": ["tabs", "notifications","http://*/*","https://*/*"],
+  // Manifest V2 用background属性取代了background_page
+  // 这里指定了一个Javascript脚本
+  "background": { "scripts": ["mdResource/js/jquery/jquery.js","mdResource/js/json/json2.js","js/background.js"] },
+  // Manifest version 1在Chrome18中已经被弃用了，这里应该指定为2
+  "manifest_version": 2,
+  // manifest_version 2中，指定扩展程序包内可以在网页中使用的资源路径（相对于扩展程序包的根目录）需要使用该属性把资源列入白名单，插入的content script本身不需要加入白名单
+  "web_accessible_resources": [
+    "favicon.ico"
+  ],
+  "browser_action": {
+    "default_icon": "favicon.ico" ,
+    "default_title": "尚普内部明道消息提醒-Henry.Zhou",
+    "default_popup": "mdResource/login.html"
+  },
+  "content_security_policy": "script-src 'self' http://*.mingdao.com/*; object-src 'self'"
+}
