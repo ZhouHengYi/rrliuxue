@@ -4,7 +4,7 @@
   <title>
     51 School
   </title>
-  <link rel="stylesheet" type="text/css" href="popup.css" />
+  <link rel="stylesheet" type="text/css" href="css/popup.css" />
 </head>
 <body>
   <div style="text-align:center;">
@@ -47,6 +47,8 @@
       <a data-area="au">首都</a>
     </div>
     <div class="searchContent clearfix">
+      <div class="poiPic schoolListTab " id="div_school2"></div>
+      <div class="poiPic schoolLabelTab active" id="div_school1"></div>
       <p class="searchChil">按专业排名排序：</p>
       <div class="searchChil" style="cursor:pointer;">
         <div class="tab_sel" style="border-color: rgb(226, 232, 238);"><span id="major1">
@@ -56,6 +58,7 @@
          </div>
        </div>
        <div class="searchChil" style="cursor:pointer;">
+
         <div class="tab_sel"><span id="major2">
           选择专业排名</span>
           <div class="poiPic tab_icon"></div></div>
@@ -64,46 +67,38 @@
         </div>
         <div class="worldRanking">
           <div class="btnSure" id="div_search" style="width:50px;">搜索</div>
+          <div class="btnSure" id="div_setTable" style="width:130px; background-color:#F42525;">获取专业数据排名</div>
         </div>
       </div>
-      <div class="searchChil" style="display:none;">
-        <div class="tab_sel"><span id="major2">
-          当前国家学校专业排名</span>
-          <div class="poiPic tab_icon"></div></div>
-          <div class="sel_content" id="sel_content1">
-          </div>
-         <div class="worldRanking">
-          <div class="btnSure" id="div_get" style="width:50px;background-color:#F91F68;">提取排名数据</div>
-        </div>
-        </div>
       </div>
       <div class="schoolList" id="school1">
-        <ul id="sc_msg"></ul>
-        <ul id="ul_school">暂无数据...</ul>
+        <ul id="sc_msg" style="color:#005aa0;">请点击搜索查询数据</ul>
+        <ul id="ul_school"></ul>
       </div>
-      <div class="schoolList" style="display:none;" id="school2">
+      <div style="display:none;" id="school2">
        <div id="exampleGrid" class="dataTable"></div>
-      </div>
-    </body>
-    <script src="jquery-2.0.0.min.js"></script>
-    <script src="popup.js"></script>
-    <script src="ukrank.js"></script>
-    <script src="aurank.js"></script>
+     </div>
+   </body>
+   <script src="jquery-2.0.0.min.js"></script>
+   <script src="popup.js"></script>
+   <script src="data/ukrank.js"></script>
+   <script src="data/aurank.js"></script>
 
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.handsontable.js"></script>
-    <script src="js/bootstrap-typeahead.js"></script>
-    <script src="js/jquery.autoresize.js"></script>
-    <script src="js/jQuery-contextMenu/jquery.contextMenu.js"></script>
-    <script src="js/jQuery-contextMenu/jquery.ui.position.js"></script>
-    <link rel="stylesheet" media="screen" href="js/jQuery-contextMenu/jquery.contextMenu.css">
-    <link rel="stylesheet" media="screen" href="jquery.handsontable.css">
+   <script src="js/jquery.min.js"></script>
+   <script src="js/jquery.handsontable.js"></script>
+   <script src="js/bootstrap-typeahead.js"></script>
+   <script src="js/jquery.autoresize.js"></script>
+   <script src="js/jQuery-contextMenu/jquery.contextMenu.js"></script>
+   <script src="js/jQuery-contextMenu/jquery.ui.position.js"></script>
+   <link rel="stylesheet" media="screen" href="js/jQuery-contextMenu/jquery.contextMenu.css">
+   <link rel="stylesheet" media="screen" href="css/jquery.handsontable.css">
+   <script type="text/javascript" src="js/jquery.magicmove.js"></script>
 
     <!--
     Loading demo dependencies. They are used here only to enhance the examples on this page
-    -->
-    <script src="js/json2.min.js"></script>
-    </div>
-  </div>
-  </html>
+  -->
+  <script src="js/json2.min.js"></script>
+</div>
+</div>
+</html>
