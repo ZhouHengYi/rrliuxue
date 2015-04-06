@@ -211,7 +211,7 @@ a:hover { color:#225599; text-decoration:underline;}
 .schoolList li span { color:#818181;}
 .schoolList li .pic { margin-left:20px;border:1px solid #c6c9cc; margin-right:10px; position:relative; margin-top:5px; cursor:pointer;}
 .schoolList li .pic .nationFlag { position:absolute; top:2px; left:2px; width:18px; height:18px;}
-.schoolList li .schoolName { width:190px;}
+.schoolList li .schoolName { width:250px;}
 .schoolList li .schoolName a { cursor:pointer; display:block;}
 .schoolList li .rank { width:100px; margin-right:120px;}
 .schoolList li .location { width:100px;}
