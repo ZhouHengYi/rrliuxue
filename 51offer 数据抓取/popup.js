@@ -65,23 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
  * schoolList.Major.country
  */
 
-/**
- * 消息监听，接受background发送的消息
- * @param  {[type]} request                                  [description]
- * @param  {[type]} sender                                   [description]
- * @param  {[type]} senderResponse){	console.log("receiving request       comes from extension...");	if(request.greeting [description]
- * @return {[type]}                                          [description]
- */
-chrome.runtime.onMessage.addListener(function(request, sender, senderResponse) {
-	console.log("receiving request comes from extension...");
-
-	if (request.greeting === "do something in contentscript!") {
-		senderResponse("ok");
-	} else {
-		senderResponse("error");
-	}
-})
-
 
 
 var schoolList;
@@ -163,11 +146,13 @@ function bindEvent() {
 	 * @return {[type]}   [description]
 	 */
 	$("#div_search").click(function() {
-		localStorage.pageIndex = 1;
-		//search();
-		$(".searchChil").show();
-		$("#div_school1").click();
-		eachSearch();
+		setTimeout(function() {
+				
+			localStorage.pageIndex = 1;
+			$(".searchChil").show();
+			$("#div_school1").click();
+			eachSearch();
+		}, 1000);
 	});
 
 	/**
@@ -196,8 +181,6 @@ function bindEvent() {
 	});
 
 	$("#div_setTable").click(function(event) {
-		sendMessageToBackground("第一次发送");
-
 		if (!schoolList || schoolList == null) {
 			alert('请先全部获取一次数据再进行操作..!');
 			return;
@@ -206,79 +189,21 @@ function bindEvent() {
 		//初始化需要依赖的数据
 		var data = {
 			msg: '开始抓取专业排名数据',
+			status: 1,
 			major: getMajor(),
 			scountry: localStorage.scountry,
 			ukrank: ukrank,
 			aurank: aurank,
-			sarea: localStorage.sarea
+			sarea: localStorage.sarea,
+			schoolList:schoolList
 		};
-
-		//WEB页主线程
-		var worker = new Worker("js/job.js"); //创建一个Worker对象并向它传递将在新线程中执行的脚本的URL
-		worker.postMessage(data);
-		worker.onmessage = function(evt) { //接收worker传过来的数据函数
-			//callbak();
-			if (evt.data.type == "UpdateMajorHtml") {
-				$("#major1").html(evt.data.rankmajorsName);
-
-				if (localStorage.scountry == "uk") {
-					bindRankByType(ukrank, evt.data.rankmajorsName);
-				} else if (localStorage.scountry == "au") {
-					bindRankByType(aurank, evt.data.rankmajorsName);
-				}
-				$("#major2").html(evt.data.rankmajorName);
-			} else if (evt.data.type == "ajaxMajor") {
-				ajaxMajor(evt.data.url, evt.data.entity);
-			}
-			//console.log("popup.js - onmessage " + evt); //输出worker发送来的数据，这里就获取到了大量计算的结果。
-
-		}
+		chrome.tabs.getSelected(null, function(tab) { 
+			data.tabId = tab.id;
+			sendMessageToBackground(data);
+        });
+		return;
 	});
 }
-
-/**
- * 发送消息到Background
- * @param  {[type]} request      [description]
- * @param  {[type]} sender       [description]
- * @param  {[type]} sendResponse [description]
- * @return {[type]}              [description]
- */
-function sendMessageToBackground(request, sender, sendResponse) {
-	// body...
-	chrome.extension.sendMessage(request, function(response) {
-		//console.log("popup.js chrome.extension.sendMessage");
-		console.log(response.question);
-
-		if(response.question == "第一次接受并响应"){
-			
-		}
-
-	});
-}
-				
-var port = chrome.extension.connect({
-	name: "knockknock"
-});
-
-port.postMessage({
-	joke: "Knock knock"
-});
-/**
- * Long-lived connections 长周期连接 
-	能够保持连接,持续的进行数据收发 
-	从content script 连接到background(插件)的代码 
- * @type {[type]}
- */
-port.onMessage.addListener(function(msg) {
-	if (msg.question == "Who's there?")
-		port.postMessage({
-			answer: "Madame"
-		});
-	else if (msg.question == "Madame who?")
-		port.postMessage({
-			answer: "Madame... Bovary"
-		});
-});
 
 /**
  * 初始化专业排名视图表格
@@ -293,7 +218,6 @@ function initTable() {
 
 	//专业信息
 	var mj = [];
-	mj.push("专业信息");
 	for (var i = 0; i < major.length; i++) {
 		mj.push(major[i].type);
 	}
@@ -349,8 +273,10 @@ function getMajor() {
  */
 function bindTableMajor() {
 	var major = getMajor();
-	for (var i = 0; i < major.length; i++) {
-		$("#th_major").append("<th>" + major[i].type + "</th>");
+	if (major) {
+		for (var i = 0; i < major.length; i++) {
+			$("#th_major").append("<th>" + major[i].type + "</th>");
+		}
 	}
 }
 
@@ -523,56 +449,14 @@ function ajaxMajor(url, entity) {
 	});
 }
 
-function eachMajor(url, entity) {
-	$.ajax({
-		url: url,
-		type: "POST",
-		data: entity,
-		timeout: 5000,
-		async: false,
-		error: function(ex) {
-			//tzMsg(ex.statusText);
-		},
-		success: function(result) {
-			//获取学校列表
-			var list = $(result).find(".schoolLabel li");
-			//循环每条学校数据进行记录
-			for (var i = 0; i < $(list).length; i++) {
-				//获得学校名称进行数据集合匹配
-				var schoolNameCh = $(list[i]).find(".schoolNameEn").eq(0).find("strong").html();
-				//综合排名
-				var g = $(list[i]).find(".allRank .rank").eq(0).html();
-				//专业排名
-				var m = $(list[i]).find(".pRank .rank").eq(0).html();
 
-
-				for (var k = 0; k < schoolList.length; k++) {
-					//根据名称判断是否对应学校
-					if (schoolList[k].schoolNameCh == schoolNameCh) {
-						for (var l = 0; l < schoolList[k].Major.length; l++) {
-							if (schoolList[k].Major[l].direction == $("#major1").html() && schoolList[k].Major[l].type == $("#major2").html()) {
-								schoolList[k].Major[l].grank = g;
-								schoolList[k].Major[l].mrank = m;
-
-								console.log("学校：" + schoolNameCh + "，专业：" + schoolList[k].Major[l].direction + " - " + schoolList[k].Major[l].type + " 综合排名：" + g + "  专业排名：" + m);
-								break;
-							}
-						}
-						console.log(schoolNameCh);
-					}
-				}
-			}
-		}
-	});
-}
-
-/**
+/**－［
  * [setLoadingMsg description]
  * @param {[type]} count [description]
  */
 function setLoadingMsg(count) {
 	localStorage.sTotalCount++;
-	$("#sc_msg").html("一共获取到" + localStorage.sPageIndex + "页数据，已获取到" + localStorage.sTotalCount + "条学校信息");
+	$("#sc_msg").html("一共获取到" + localStorage.sPageIndex + "页数据，包含" + localStorage.sTotalCount + "条学校信息，包含" + getMajor().length + "条排序专业信息");
 }
 
 /**
@@ -732,6 +616,42 @@ function bindRankByType(list, direction) {
 	});
 }
 
+/**
+ * 消息监听，接受background发送的消息
+ * @param  {[type]} request                                  [description]
+ * @param  {[type]} sender                                   [description]
+ * @param  {[type]} senderResponse){	console.log("receiving request       comes from extension...");	if(request.greeting [description]
+ * @return {[type]}                                          [description]
+ */
+chrome.runtime.onMessage.addListener(function(request, sender, senderResponse) {
+	console.log("receiving request comes from extension...");
+	if (request.type == "UpdateMajorHtml") {
+		$("#major1").html(request.rankmajorsName);
+
+		if (localStorage.scountry == "uk") {
+			bindRankByType(ukrank, request.rankmajorsName);
+		} else if (localStorage.scountry == "au") {
+			bindRankByType(aurank, request.rankmajorsName);
+		}
+		$("#major2").html(request.rankmajorName);
+	} else if (request.type == "ajaxMajor") {
+		ajaxMajor(request.url, request.entity);
+	}
+});
+
+/**
+ * 发送消息到Background
+ * @param  {[type]} request      [description]
+ * @param  {[type]} sender       [description]
+ * @param  {[type]} sendResponse [description]
+ * @return {[type]}              [description]
+ */
+function sendMessageToBackground(request) {
+	chrome.extension.sendMessage(request, function(response) {
+		//console.log("popup.js chrome.extension.sendMessage");
+		console.log(response.type);
+	});
+}
 
 /**
  * 这里开始时UrlEncode和UrlDecode函数
